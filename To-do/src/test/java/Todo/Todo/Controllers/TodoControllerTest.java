@@ -10,9 +10,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.persistence.PersistenceException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,10 +30,26 @@ public class TodoControllerTest {
     @Test
     public void create_when_inserts() {
 
-        Mockito.when(todoRepository.save(any())).thenReturn(Optional.of(fakeDao()));
+        Mockito.when(todoRepository.save(any())).thenReturn(fakeDao());
 
         assertDoesNotThrow(() -> todoController.create("Test"));
 
+    }
+
+    @DisplayName("Inserts Fails")
+    @Test
+    public void create_when_PersistenceException() {
+
+        Mockito.when(todoRepository.save(any())).thenThrow(PersistenceException.class);
+
+        assertDoesNotThrow(() -> todoController.create("Test"));
+
+    }
+
+    @DisplayName("Inserts Fails")
+    @Test
+    public void get_when_OK() {
+        assertDoesNotThrow(() -> todoController.get());
     }
 
 

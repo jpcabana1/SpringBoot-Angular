@@ -30,15 +30,15 @@ public class TodoController {
                     .message("Novo Todo adicionado!")
                     .build());
         } catch (Exception e) {
-            return ResponseEntity.ok(StatusDTO.builder()
+            return new ResponseEntity<>(StatusDTO.builder()
                     .code(HttpStatus.BAD_REQUEST.value())
                     .message(String.format("Erro: %s", e.getMessage()))
-                    .build());
+                    .build(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping(value = "/getTodos")
-    public ResponseEntity<List<TodoDAO>> get(){
+    public ResponseEntity<List<TodoDAO>> get() {
         return ResponseEntity.ok(todoRepository.findAll());
     }
 
