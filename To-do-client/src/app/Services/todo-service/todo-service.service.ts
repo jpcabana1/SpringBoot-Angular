@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { Todo } from 'src/app/DTO/todo.model';
 import { AbstractHandleError } from '../AbstractHandleError';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TodoServiceService extends AbstractHandleError {
-  url: string = 'http://localhost:8080/newTodo';
+export class TodoService extends AbstractHandleError {
+  url: string = 'http://localhost:8080/';
 
   constructor(private http: HttpClient) {
     super();
@@ -23,7 +24,13 @@ export class TodoServiceService extends AbstractHandleError {
     };
 
     return this.http
-      .post<any>(this.url, null, httpOptions)
+      .post<any>(this.url + 'newTodo', null, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  getTodos(): Observable<Todo[]> {
+    return this.http
+      .get<Todo[]>(this.url + 'getTodos')
       .pipe(retry(3), catchError(this.handleError));
   }
 }

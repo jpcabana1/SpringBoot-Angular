@@ -1,15 +1,21 @@
 <div>
-  <form (ngSubmit)="this.onSubmit()"[formGroup]="this.formTodo">
-    
+  <form (ngSubmit)="this.onSubmit()" [formGroup]="this.formTodo">
     <mat-form-field class="example-form-field" appearance="fill">
-      <input matInput type="text" placeholder="Descrição" formControlName="desc" />
+      <input
+        matInput
+        type="text"
+        placeholder="Descrição"
+        formControlName="desc"
+      />
     </mat-form-field>
-  
-    <mat-form-field>
-      <button mat-fab color="primary" type="submit" [disabled]="!this.formTodo.valid">
-        <mat-icon>add</mat-icon>
-      </button>
-    </mat-form-field>
+
+    <button
+    mat-fab
+    color="primary"
+    type="submit"
+    [disabled]="!this.formTodo.valid"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
   </form>
-  
 </div>

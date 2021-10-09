@@ -58,6 +58,7 @@ jacocoTestReport {
                             '**/Model/**',
                             '**/DTO/**',
                             '**/Repository/**',
+                            '**/Config/**',
                             '**/ToDoApplication*'
                     ]
             )
