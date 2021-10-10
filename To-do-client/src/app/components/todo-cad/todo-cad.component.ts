@@ -22,9 +22,11 @@ export class TodoCadComponent {
     this.todoService.createTodo(desc).subscribe(
       (resp: any) => {
         console.log(resp);
+        alert("Novo To-do adicionado!");
       },
       (err: any) => {
         console.log(err);
+        alert("Erro no cadastro: " + err.message);
       }
     );
   }
