@@ -1,13 +1,18 @@
 package Todo.Todo.Model;
 
-
-
 import lombok.Data;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Column;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -25,5 +30,11 @@ public class TodoDAO {
 
     @Column(nullable = false, length = 256, unique = true)
     private String desc;
+
+    @Column(nullable = false)
+    private LocalDateTime dtCreate;
+
+    @Column(nullable = false)
+    private LocalDateTime dtUpdate;
 
 }

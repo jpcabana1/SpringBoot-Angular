@@ -25,22 +25,26 @@ dependencies {
     implementation 'junit:junit:4.13.1'
 
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
 
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    runtimeOnly 'com.h2database:h2'
+
+    annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testCompileOnly 'junit:junit:4.13'
     testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+
+    testCompileOnly 'junit:junit:4.13'
 
 }
 
 
-
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.7"
     reportsDir = file("$buildDir/JacocoReportDir")
 }
 

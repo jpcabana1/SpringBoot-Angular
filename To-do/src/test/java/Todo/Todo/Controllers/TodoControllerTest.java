@@ -1,20 +1,19 @@
 package Todo.Todo.Controllers;
 
-import Todo.Todo.Model.TodoDAO;
-import Todo.Todo.Repository.TodoRepository;
+import Todo.Todo.DTO.StatusDTO;
+import Todo.Todo.Service.ITodoService;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 
-import javax.persistence.PersistenceException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -24,40 +23,27 @@ public class TodoControllerTest {
     private TodoController todoController;
 
     @Mock
-    private TodoRepository todoRepository;
+    private ITodoService todoService;
 
-    @DisplayName("Inserts Successful")
     @Test
     public void create_when_inserts() {
+        Optional<StatusDTO> expected = fakeStatus();
+        Mockito.when(todoService.create(any())).thenReturn(expected);
 
-        Mockito.when(todoRepository.save(any())).thenReturn(fakeDao());
+        StatusDTO returnDTO = todoController.create("Test").getBody();
 
-        assertDoesNotThrow(() -> todoController.create("Test"));
-
+        assertEquals(returnDTO, expected.get());
     }
 
-    @DisplayName("Inserts Fails")
-    @Test
-    public void create_when_PersistenceException() {
-
-        Mockito.when(todoRepository.save(any())).thenThrow(PersistenceException.class);
-
-        assertDoesNotThrow(() -> todoController.create("Test"));
-
-    }
-
-    @DisplayName("Inserts Fails")
     @Test
     public void get_when_OK() {
         assertDoesNotThrow(() -> todoController.get());
     }
 
-
-    private TodoDAO fakeDao() {
-        return TodoDAO.builder()
-                .id(1)
-                .desc("Test")
-                .build();
+    private Optional<StatusDTO> fakeStatus() {
+        return Optional.of(StatusDTO.builder()
+                .code(HttpStatus.CREATED.value())
+                .message("Novo To-do adicionado!")
+                .build());
     }
-
 }

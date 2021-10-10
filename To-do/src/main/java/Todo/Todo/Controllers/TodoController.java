@@ -2,11 +2,15 @@ package Todo.Todo.Controllers;
 
 import Todo.Todo.DTO.StatusDTO;
 import Todo.Todo.Model.TodoDAO;
-import Todo.Todo.Repository.TodoRepository;
+import Todo.Todo.Service.ITodoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -14,29 +18,18 @@ import java.util.List;
 public class TodoController {
 
     @Autowired
-    private TodoRepository todoRepository;
+    private ITodoService todoService;
 
+    @CrossOrigin()
     @PostMapping(value = "/newTodo")
-    public ResponseEntity<StatusDTO> create(@RequestHeader("desc") String desc) {
-        try {
-            todoRepository.save(TodoDAO.builder()
-                    .desc(desc)
-                    .build());
-            return ResponseEntity.ok(StatusDTO.builder()
-                    .code(HttpStatus.CREATED.value())
-                    .message("Novo Todo adicionado!")
-                    .build());
-        } catch (Exception e) {
-            return new ResponseEntity<>(StatusDTO.builder()
-                    .code(HttpStatus.BAD_REQUEST.value())
-                    .message(String.format("Erro: %s", e.getMessage()))
-                    .build(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<StatusDTO> create(@Validated @RequestHeader("desc") String desc) {
+        return ResponseEntity.of(todoService.create(desc));
     }
 
+    @CrossOrigin()
     @GetMapping(value = "/getTodos")
     public ResponseEntity<List<TodoDAO>> get() {
-        return ResponseEntity.ok(todoRepository.findAll());
+        return ResponseEntity.of(todoService.getAll());
     }
 
 }

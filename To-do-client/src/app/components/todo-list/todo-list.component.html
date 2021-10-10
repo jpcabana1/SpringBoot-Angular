@@ -3,10 +3,14 @@
     <tr>
       <th scope="col">Id</th>
       <th scope="col">To-do</th>
+      <th scope="col">Data de Criação</th>
+      <th scope="col">Data de Att.</th>
     </tr>
   </thead>
   <tbody *ngFor ="let todo of lista">
       <td>{{todo.id | number}}</td>
       <td>{{todo.desc}}</td>
+      <td>{{todo.dtCreate}}</td>
+      <td>{{todo.dtUpdate}}</td>
   </tbody>
 </table>
